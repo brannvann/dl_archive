@@ -3,8 +3,12 @@
 baseurl="https://archive.org/details/"
 magazine="computerpress"
 
-if [[ -n "$1" ]]; then
+if [[ -n "$1" ]]; 
+then
 	magazine="$1"
+else
+	echo "usage: $0 collection_name"
+	exit
 fi
 
 if [ ! -d "$magazine" ]; then
@@ -25,6 +29,7 @@ fetching_flag=true
 while $fetching_flag
 do
 	detail_url="$baseurl$magazine?&sort=-week&page=$page_number"
+	
 	echo "read $detail_url"
 	detail_page=`curl -s $detail_url`
 	
@@ -33,7 +38,6 @@ do
 		if((${#line} > 1)) 
 		then
 			issue_url="$baseurl$line"
-			#echo "$issue_url"
 			issue_page=`curl -s $issue_url`
 			issue_ref=`echo "$issue_page" | grep "href=\"/download/" | grep "stealth" | grep "text[.]pdf"`
 			if [ -z "${issue_ref}" ]; then
@@ -62,8 +66,10 @@ do
 
 done
 
+if [[ -n "$2" ]]; then
+	wget -nc -c -i "$filelist"
+fi
 
-#wget -nc -c "$file_url"
 
 
 

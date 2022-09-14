@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 baseurl="https://archive.org/details/"
 magazine="computerpress"
 
